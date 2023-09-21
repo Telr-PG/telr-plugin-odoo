@@ -158,7 +158,7 @@ class PaymentTransaction(models.Model):
             "return_auth": '%s?id=%s' % (urls.url_join(base_url, TelrController._return_url), str(tx_record.id)),
             "return_decl": '%s?id=%s' % (urls.url_join(base_url, TelrController._return_url), str(tx_record.id)),
             "return_can": '%s?id=%s' % (urls.url_join(base_url, TelrController._return_url), str(tx_record.id)),
-            "ivp_update_url":'%s' % (urls.url_join(base_url, TelrController._ivp_callback_url))
+            "ivp_update_url":'%s' % (urls.url_join(base_url, TelrController._ivp_callback_url), str(tx_record.id))
         }
         
         headers = {'content-type': 'application/x-www-form-urlencoded'}
@@ -271,6 +271,7 @@ class PaymentTransaction(models.Model):
             if status == 'A':
                 self._set_done()
                 self.env.ref('payment.cron_post_process_payment_tx')._trigger()
+                self.write({'provider_reference': tranref})
             else:
                 self._set_error(
                     "Telr: " + message
@@ -284,6 +285,7 @@ class PaymentTransaction(models.Model):
            
             if status == 'A':
                 self._set_done()
+                self.write({'provider_reference': tranref})
             else:
                 self._set_error(
                     "Telr: " + message
@@ -297,6 +299,7 @@ class PaymentTransaction(models.Model):
             
             if status == 'A':
                 self._set_canceled()
+                self.write({'provider_reference': tranref})
             else:
                 self._set_error(
                     "Telr: " + message
@@ -366,9 +369,8 @@ class PaymentTransaction(models.Model):
         refund_tx = super()._send_refund_request(amount_to_refund=amount_to_refund)
         if self.provider_code != 'telr':
             return refund_tx
-            
-        
-        if self.provider_id.telr_remote_key == '':
+                    
+        if self.provider_id.telr_remote_key == 0:            
             raise ValidationError(
                 "Telr: " + _(
                     "Refund do not initiate because Remote API Authentication Key is blank in Telr payment configuration"
@@ -403,7 +405,7 @@ class PaymentTransaction(models.Model):
         if self.provider_code != 'telr':
             return
         
-        if self.provider_id.telr_remote_key == '':
+        if self.provider_id.telr_remote_key == 0:            
             raise ValidationError(
                 "Telr: " + _(
                     "Capture request do not initiate because Remote API Authentication Key is blank in Telr payment configuration"
@@ -431,7 +433,7 @@ class PaymentTransaction(models.Model):
         if self.provider_code != 'telr':
             return
         
-        if self.provider_id.telr_remote_key == '':
+        if self.provider_id.telr_remote_key == 0:
             raise ValidationError(
                 "Telr: " + _(
                     "Void request do not initiate because Remote API Authentication Key is blank in Telr payment configuration"
