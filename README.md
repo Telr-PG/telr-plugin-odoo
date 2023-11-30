@@ -5,10 +5,10 @@ This plugin enables your Odoo powered platform to start accepting payments via T
 ### Process to Enable Telr Payment Gateway ###
 
 1)	Activate developer mode
-	  * Log in Odoo Admin Portal, navigate to Settings > General Settings > Activate the developer mode to activate.	
+* Log in Odoo Admin Portal, navigate to Settings > General Settings > Activate the developer mode to activate.	
 2)  Install custom add-on
-      * The contents of the zip file should be copied into /customaddons folder which will be found in the root directory of your Odoo installation. 
-      * If customaddons directory is not available in the root directory, then create the “customaddons” directory and mention the customaddons path in “odoo.conf” file under the addons_path variable and restart the odoo server      
+* The contents of the zip file should be copied into /customaddons folder which will be found in the root directory of your Odoo installation. 
+* If customaddons directory is not available in the root directory, then create the “customaddons” directory and mention the customaddons path in “odoo.conf” file under the addons_path variable and restart the odoo server      
 3)	Activate custom add-on
 * Add your 'Store ID' and 'Authentication Key' in the admin panel (Note : If you have not 'Store ID' and 'Authentication Key' please contact with Telr support)
 
