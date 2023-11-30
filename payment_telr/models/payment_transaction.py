@@ -79,8 +79,7 @@ class PaymentTransaction(models.Model):
             "ivp_desc": self.reference,
             "return_auth": '%s?id=%s' % (urls.url_join(base_url, TelrController._return_url), str(self.id)),
             "return_decl": '%s?id=%s' % (urls.url_join(base_url, TelrController._return_url), str(self.id)),
-            "return_can": '%s?id=%s' % (urls.url_join(base_url, TelrController._return_url), str(self.id)),
-            "ivp_update_url":'%s?id=%s' % (urls.url_join(base_url, TelrController._ivp_callback_url), str(self.id))
+            "return_can": '%s?id=%s' % (urls.url_join(base_url, TelrController._return_url), str(self.id))
         }
         
         current_user = self.env.user
@@ -157,8 +156,7 @@ class PaymentTransaction(models.Model):
             'card_token':data['telr_payment_token'],
             "return_auth": '%s?id=%s' % (urls.url_join(base_url, TelrController._return_url), str(tx_record.id)),
             "return_decl": '%s?id=%s' % (urls.url_join(base_url, TelrController._return_url), str(tx_record.id)),
-            "return_can": '%s?id=%s' % (urls.url_join(base_url, TelrController._return_url), str(tx_record.id)),
-            "ivp_update_url":'%s' % (urls.url_join(base_url, TelrController._ivp_callback_url), str(tx_record.id))
+            "return_can": '%s?id=%s' % (urls.url_join(base_url, TelrController._return_url), str(tx_record.id))
         }
         
         headers = {'content-type': 'application/x-www-form-urlencoded'}
